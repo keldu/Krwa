@@ -4,6 +4,8 @@
 
 int main()
 {
+
+
     Game game;
     if(game.run()){
         std::cerr<<"An error occured";

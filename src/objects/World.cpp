@@ -2,9 +2,24 @@
 
 World::World():
     collisionContainer(new Bulletcontainer(this))
-	{
-				
+    {
+
 	}
+
+long World::generateID(){
+    return idGenerator.generateID();
+}
+
+Entity* World::searchEntityByID(long id){
+
+    for(auto it = entities.begin(); it != entities.end(); ++it){
+        if( id == (**it).getID() ){
+            return &(**it);
+        }
+    }
+    return 0L;
+
+}
 
 void World::UpdateDeffered(){
 
@@ -66,7 +81,7 @@ void World::UpdateDeffered(){
 }
 
 void World::addEntity(Entity* ent){
-	entAdd.push(ent);
+    entAdd.push(ent);
 }
 
 void World::removeEntity(Entity* ent){

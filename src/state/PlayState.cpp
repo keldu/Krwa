@@ -1,3 +1,4 @@
+
 #include "PlayState.h"
 #include <cmath>
 
@@ -7,20 +8,36 @@
 #include "logic/Time.h"
 
 #include "objects/Ship.h"
+#include "objects/Unit.h"
+#include "objects/Quadrat.h"
+#include "objects/Astronaut.h"
+
+#include "logic/kelducallback.h"
+
+#include <iostream>
 
 PlayState::PlayState(World& world,Render& render, Player& player): State(world,render,player){
     ;
 }
 
-
 void PlayState::init(){
-    ;
 
     Time::timeloop();
 
-    new Ship(*m_world,Vec2f(0,0));
-}
+    Astronaut* astro = Astronaut::createInstance( *m_world, Vec2f( 7, 0 ) );
+    m_player->setControlled(astro);
 
+    Ship* ship = Ship::createInstance( *m_world,Vec2f(0,0));
+    ship->init1();
+    /*
+    Ship* ship2 = Ship::createInstance( *m_world,Vec2f(2,-4));
+    ship2->init2();
+
+    Ship* ship3 = Ship::createInstance( *m_world,Vec2f(-2,-4));
+    ship3->init2();
+    */
+
+}
 
 void PlayState::loop(){
     while(running && !m_render->shouldClose()){
@@ -30,16 +47,17 @@ void PlayState::loop(){
         m_world->UpdateDeffered();
         //LOGIC
 
-        ;
+
         //COLLISION
         m_world->collisionContainer->checkCollision();
 
+        KelduCallback::handleInput();
+
+        for(IUpdatable* upt : m_world->updatables){
+            upt->tick();
+        }
         //RENDER
         m_render->loop();
-
-
-        //Input
-        m_player->inputhandling(m_render->m_window);
 
     }
 

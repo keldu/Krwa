@@ -9,16 +9,17 @@
 
 class Unit: public Entity, public IDrawable{
 public:
-	Unit(World&);
 
-    void draw();
+    virtual void draw(const mat4f& vp);
+    virtual void die();
 
+    static Unit* createInstance(World &a_world, Vec2f a_pos);
 protected:
+    Unit(World &a_world,Vec2f a_pos);
 
     Unitdraw* drawUnit;
 
-    void tellWorldSenpai();
-    void die();
+    virtual void tellWorldSenpai();
 
     static Unitdrawcontainer drawer;
 };

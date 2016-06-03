@@ -4,6 +4,7 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
+#include "gl/Camera.h"
 
 #include "objects/World.h"
 
@@ -13,12 +14,15 @@ public:
     GLFWwindow* m_window;
 
     Render(unsigned int, unsigned int, World&);
-    void init();
+    void init(Player& a_player);
 	void loop();
 	void close();
     bool shouldClose();
+
+    Camera2D camera;
 protected:
     unsigned int m_width, m_height;
-    GLuint vertexbuffer, programID;
 	World* m_world;
+    static Render* callbackhelper;
+    static void window_size_callback(GLFWwindow* window, int width, int height);
 };

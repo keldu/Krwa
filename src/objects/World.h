@@ -11,6 +11,10 @@
 #include "gl/IDrawable.h"
 #include "collision/ICollidable.h"
 #include "logic/IUpdatable.h"
+#include "logic/idmanager.h"
+
+#include "Box2D/Box2D.h"
+
 
 class Entity;
 class Bulletcontainer;
@@ -18,7 +22,6 @@ class Bulletcontainer;
 class World{
 public:
 	World();
-
 
 	void UpdateDeffered();
 
@@ -39,6 +42,9 @@ public:
 	std::vector<IDrawable*> drawables;
     std::vector<IUpdatable*> updatables;
 
+    long generateID();
+    Entity* searchEntityByID(long id);
+
 private:
 	std::queue<Entity*> entAdd;
     std::queue<Entity*> entRemove;
@@ -50,4 +56,6 @@ private:
     std::queue<IUpdatable*> updateRemove;
 
 	std::vector<std::unique_ptr<Entity>> entities;
+
+    IDManager idGenerator;
 };

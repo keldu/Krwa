@@ -2,8 +2,19 @@
 
 #include <algorithm>
 
-Bulletcontainer::Bulletcontainer(World *a_world): m_world(a_world){
 
+
+Bulletcontainer::Bulletcontainer(World *a_world): m_collisionworld(b2Vec2(0,0)), m_world(a_world){
+    m_collisionworld.SetContactListener(&contactlistener);
+
+    b2BodyDef spacedef;
+    spacedef.gravityScale = 0.0f;
+    spacedef.fixedRotation = true;
+    spacedef.allowSleep = true;
+    spacedef.angle = 0;
+    spacedef.type = b2_staticBody;
+
+    m_spacebody = m_collisionworld.CreateBody(&spacedef);
 }
 
 void Bulletcontainer::Add(ICollidable *obj){
@@ -20,5 +31,5 @@ void Bulletcontainer::Remove(ICollidable *obj){
 }
 
 void Bulletcontainer::checkCollision(){
-    ;
+    m_collisionworld.Step(Time::getdeltatime(),10,10);
 }

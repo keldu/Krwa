@@ -16,6 +16,8 @@ public:
 
     Vec2f getTotal(Vec2f loc);
 
+
+
     Transform* parent;
 private:
 
